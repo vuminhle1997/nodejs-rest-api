@@ -2,10 +2,12 @@ import Express from 'express';
 import bodyParser from 'body-parser';
 import routes from './routes';
 import swaggerUI from 'swagger-ui-express';
+import swaggerOutput from './swagger.json';
 
-const express = Express();
+const app = Express();
 
-express.use(bodyParser.json());
-express.use('/api', routes);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerOutput));
+app.use(bodyParser.json());
+app.use('/api', routes);
 
-export = express;
+export = app;

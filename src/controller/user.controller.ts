@@ -15,7 +15,7 @@ export const getUsers = (req: Request, res: Response) => {
 export const createUser = (req: Request, res: Response) => {
   const body: User = req.body;
   if (!body.email && !body.username) {
-    res.status(401).json({ error: 'Missing email & username' });
+    res.status(400).json({ error: 'Missing email & username' });
   } else {
     const obj = {
       ...body,

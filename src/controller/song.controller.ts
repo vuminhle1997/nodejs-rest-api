@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { Get } from 'tsoa';
 
 interface Song {
   id: number;
@@ -31,8 +30,7 @@ export const getSongs = (req: Request, res: Response) => {
 
 export const createSong = (req: Request, res: Response) => {
   const body: Song = req.body;
-  if (!body.id && body.title)
-    res.status(401).json({ error: 'Missing id & title' });
+  if (!body.title) res.status(400).json({ error: 'Missing title' });
   else {
     const obj: Song = {
       ...body,
@@ -45,14 +43,14 @@ export const createSong = (req: Request, res: Response) => {
 
 export const deleteSong = (req: Request, res: Response) => {
   const id = req.params.id;
-  if (!id) res.status(401).json({ error: 'Missing id' });
+  if (!id) res.status(400).json({ error: 'Missing id' });
   else {
     const i = songs.findIndex((s) => s.id === Number.parseInt(id, 10));
     if (i >= 0) {
       const song = songs.splice(i, 1);
       res.status(200).json({ song });
     }
-    res.status(401).json({ error: 'Bad id input' });
+    res.status(400).json({ error: 'Bad id input' });
   }
 };
 
