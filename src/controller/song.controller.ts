@@ -30,14 +30,15 @@ export const getSongs = (req: Request, res: Response) => {
 
 export const createSong = (req: Request, res: Response) => {
   const body: Song = req.body;
-  if (!body.title) res.status(400).json({ error: 'Missing title' });
+  if (!body.title || !body.href)
+    return res.status(400).json({ error: 'Missing title' });
   else {
     const obj: Song = {
       ...body,
       id: songs.length + 1,
     };
     songs.push(obj);
-    res.status(200).json({ song: obj });
+    return res.status(200).json({ song: obj });
   }
 };
 
